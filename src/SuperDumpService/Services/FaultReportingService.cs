@@ -38,7 +38,7 @@ namespace SuperDumpService.Services {
 			var faultReport = new FaultReport();
 
 			// modules & stackframes
-			var faultingThread = result.GetErrorOrLastExecutingThread();
+			var faultingThread = result?.GetErrorOrLastExecutingThread();
 			if (faultingThread != null) {
 				faultReport.FaultingFrames = new List<string>();
 
@@ -61,7 +61,7 @@ namespace SuperDumpService.Services {
 
 			var faultReasonSb = new StringBuilder();
 			// lastevent
-			if (result.LastEvent != null) {
+			if (result?.LastEvent != null) {
 				if (result.LastEvent.Description.StartsWith("Break instruction exception")) {
 					// "break instruction" as a lastevent is so generic, it's practically useless. treat it as if there was no information at all.
 				} else {
@@ -76,7 +76,7 @@ namespace SuperDumpService.Services {
 			}
 
 			// exception
-			var exception = result.GetErrorOrLastExecutingThread()?.LastException;
+			var exception = result?.GetErrorOrLastExecutingThread()?.LastException;
 			if (exception != null) {
 				if (!string.IsNullOrEmpty(exception.Type)) {
 					if (faultReasonSb.Length > 0) faultReasonSb.Append(", ");
@@ -104,7 +104,7 @@ namespace SuperDumpService.Services {
 		public List<string> FaultingFrames { get; set; }
 		
 		public override string ToString() {
-			return $"{FaultReason}\n{FaultLocation}\n\n{string.Join('\n', FaultingFrames)}";
+			return $"{FaultReason}\n{FaultLocation}\n\n{string.Join('\n', FaultingFrames ?? new List<string>())}";
 		}
 	}
 

@@ -60,6 +60,7 @@ namespace SuperDump.ModelHelpers {
 
 		public static SDAppDomain ToSDModel(this ClrAppDomain domain) {
 			var model = new SDAppDomain();
+			if (domain == null) return model;
 			model.Address = domain.Address;
 			model.ApplicationBase = domain.ApplicationBase;
 			model.Id = domain.Id;

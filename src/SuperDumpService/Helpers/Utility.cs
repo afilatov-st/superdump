@@ -38,7 +38,11 @@ namespace SuperDumpService.Helpers {
 				HttpResponseMessage resTask = AsyncHelper.RunSync(() => client.SendAsync(new HttpRequestMessage(HttpMethod.Head, uri)));
 				if (string.IsNullOrEmpty(filename)) {
 					try {
-						filename = resTask.Content.Headers.ContentDisposition.FileName.Replace("\"", "");
+						if (resTask.Content.Headers.ContentDisposition != null) {
+							filename = resTask.Content.Headers.ContentDisposition.FileName.Replace("\"", "");
+						} else {
+							filename = Path.GetFileName(uri.LocalPath);
+						}
 					} catch (Exception e) {
 						filename = RandomIdGenerator.GetRandomId(1, 15);
 						Console.WriteLine($"could not get filename from HEAD request. going with randomly generated '{filename}'. error: {e}");

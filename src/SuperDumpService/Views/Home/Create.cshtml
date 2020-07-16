@@ -5,7 +5,7 @@
 
 <h2>@ViewData["Title"]</h2>
 
-<p>You can upload any '.dmp' (windows full- or minidump file) or '.zip' file, containing multiple dumps.</p>
+<p>You can upload any '.dmp' (windows full- or minidump file) or '.zip' or '.7z' file, containing multiple dumps.</p>
 
 <div class="panel panel-default">
 	<div class="panel-heading">
@@ -21,7 +21,7 @@
 					<button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger('click')">Add File</button>
 
 					<div class="form-group file-upload-wrap">
-						<input required type="file" name="file" class="form-control file-upload-input" onchange="readURL(this);" id="file-selector" accept=".dmp,.DMP,.zip,.ZIP" />
+						<input required type="file" name="file" class="form-control file-upload-input" onchange="readURL(this);" id="file-selector" accept=".dmp,.DMP,.zip,.ZIP,.7z" />
 						<div class="drag-text">
 							<h3>Drag and drop a file or select add file</h3>
 						</div>

@@ -5,12 +5,14 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
+using SharpCompress.Archives;
 
 namespace SuperDumpService.Services {
 	public enum ArchiveType {
 		Zip,
 		TarGz,
-		Tar
+		Tar,
+		SevenZip
 	}
 
 	public class UnpackService {
@@ -22,7 +24,8 @@ namespace SuperDumpService.Services {
 		public static bool IsSupportedArchive(string filename) {
 			return filename.EndsWith(".zip", StringComparison.OrdinalIgnoreCase) ||
 				filename.EndsWith(".tar.gz", StringComparison.OrdinalIgnoreCase) && filename != "libs.tar.gz" ||
-				filename.EndsWith(".tar", StringComparison.OrdinalIgnoreCase);
+				filename.EndsWith(".tar", StringComparison.OrdinalIgnoreCase) ||
+				filename.EndsWith(".7z", StringComparison.OrdinalIgnoreCase);
 		}
 
 		private static void ExtractZip(FileInfo file, DirectoryInfo outputDir) {
@@ -96,6 +99,20 @@ namespace SuperDumpService.Services {
 			return subdir;
 		}
 
+		private static void ExtractSevenZip(FileInfo file, DirectoryInfo outputDir) {
+			using (var zipArchive = SharpCompress.Archives.ArchiveFactory.Open(file.FullName)) {
+				foreach (var entry in zipArchive.Entries) {
+					string outName = Path.Combine(outputDir.FullName, RemoveInvalidChars(entry.Key));
+					Directory.CreateDirectory(Path.GetDirectoryName(outName));
+
+					if (!Path.EndsInDirectorySeparator(outName)) {
+
+						entry.WriteToFile(outName);
+					}
+				}
+			}
+		}
+
 		public DirectoryInfo ExtractArchive(FileInfo file, ArchiveType type) {
 			DirectoryInfo outputDir = FindUniqueTempDir(file.Directory, Path.GetFileNameWithoutExtension(file.Name));
 			switch (type) {
@@ -107,6 +124,9 @@ namespace SuperDumpService.Services {
 					break;
 				case ArchiveType.Tar:
 					ExtractTar(file, outputDir);
+					break;
+				case ArchiveType.SevenZip:
+					ExtractSevenZip(file, outputDir);
 					break;
 			}
 			return outputDir;

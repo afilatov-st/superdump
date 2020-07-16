@@ -148,6 +148,7 @@ namespace SuperDumpService.Services {
 			if (file.Name.EndsWith(".tar.gz", StringComparison.OrdinalIgnoreCase) && file.Name != "libs.tar.gz") { await ProcessArchive(bundleId, file, ArchiveType.TarGz); return; }
 			if (file.Name.EndsWith(".tar", StringComparison.OrdinalIgnoreCase)) { await ProcessArchive(bundleId, file, ArchiveType.Tar); return; }
 			if (file.Name.EndsWith(".pdb", StringComparison.OrdinalIgnoreCase)) { ProcessSymbol(file); return; }
+			if (file.Name.EndsWith(".7z", StringComparison.OrdinalIgnoreCase)) { await ProcessArchive(bundleId, file, ArchiveType.SevenZip); return; }
 		}
 
 		private void ProcessSymbol(FileInfo file) {
