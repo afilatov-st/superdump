@@ -29,7 +29,10 @@
 			<a href="@SuperDumpService.Helpers.Utility.GetDumpUrl(Model.Id)">Back to Report</a>
 		</div>
 		<div style="display:inline-block; float: right; padding: 8px;">
-			<a href="http://windbg.info/doc/1-common-cmds.html">WinDbg Cheat Sheet</a>
+			@foreach (var (name, link) in Model.HelpLinks)
+			{
+				<a href="@link">@name</a><span>&nbsp;|&nbsp;</span>
+			}
 		</div>
 		<div id="webtermConsole" class="left-aligned"></div>
 	</div>

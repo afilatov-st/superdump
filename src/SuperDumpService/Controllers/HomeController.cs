@@ -215,7 +215,10 @@ namespace SuperDumpService.Controllers {
 
 			logger.LogDumpAccess("Start Interactive Mode", HttpContext, bundleInfo, dumpId);
 			var id = DumpIdentifier.Create(bundleId, dumpId);
-			return View(new InteractiveViewModel() { Id = id, DumpInfo = dumpRepo.Get(id), Command = cmd });
+			return View(new InteractiveViewModel() {
+				Id = id, DumpInfo = dumpRepo.Get(id), Command = cmd,
+				HelpLinks = settings.InteractiveHelpLinks ?? new Dictionary<string, string>()
+			});
 		}
 
 		/// <summary>

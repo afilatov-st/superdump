@@ -46,6 +46,7 @@ namespace SuperDumpService {
 		public bool UseAmazonSqs { get; set; }
 		public AmazonSqsSettings AmazonSqsSettings { get; set; }
 		public string[] WebTerminalInitialCommands { get; set; }
+		public Dictionary<string, string> InteractiveHelpLinks { get; set; }
 
 		public bool IsDumpRetentionEnabled () {
 			return !string.IsNullOrEmpty(DumpRetentionCron) && DumpRetentionDays > 0;

@@ -7,5 +7,6 @@ namespace SuperDumpService.ViewModels {
 		public DumpIdentifier Id { get; set; }
 		public DumpMetainfo DumpInfo { get; set; }
 		public string Command { get; set; }
+		public Dictionary<string, string> HelpLinks { get; set; }
 	}
 }
