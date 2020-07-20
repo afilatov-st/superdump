@@ -18,11 +18,13 @@ namespace SuperDumpService.Services {
 	public class SlackNotificationService {
 		private readonly string superDumpUrl;
 		private readonly string[] webhookUrls;
+		private readonly string channel;
 		private readonly DumpRepository dumpRepo;
 
 		public SlackNotificationService(IOptions<SuperDumpSettings> settings, DumpRepository dumpRepo) {
 			this.superDumpUrl = settings.Value.SuperDumpUrl;
 			this.webhookUrls = settings.Value.SlackNotificationUrls;
+			this.channel = settings.Value.SlackChannel;
 			this.dumpRepo = dumpRepo;
 		}
 
@@ -96,6 +98,7 @@ namespace SuperDumpService.Services {
 		private async Task SendMessage(string url, string msg) {
 			var client = new SlackClient(url);
 			await client.PostAsync(new SlackMessage() {
+				Channel = channel,
 				Username = "SuperDump",
 				IconEmoji = ":ghost:",
 				Text = msg
