@@ -45,6 +45,7 @@ namespace SuperDumpService {
 		public TimeSpan DownloadServiceHttpClientTimeout { get; set; } = TimeSpan.FromMinutes(4);
 		public bool UseAmazonSqs { get; set; }
 		public AmazonSqsSettings AmazonSqsSettings { get; set; }
+		public string[] WebTerminalInitialCommands { get; set; }
 
 		public bool IsDumpRetentionEnabled () {
 			return !string.IsNullOrEmpty(DumpRetentionCron) && DumpRetentionDays > 0;

@@ -25,8 +25,6 @@ using SuperDumpService.Models;
 using SuperDumpService.Services;
 using SuperDumpService.Services.Analyzers;
 using WebSocketManager;
-using Swashbuckle.AspNetCore.Swagger;
-using Microsoft.OpenApi.Models;
 using Polly;
 
 namespace SuperDumpService {
@@ -103,33 +101,6 @@ namespace SuperDumpService {
 			// Add framework services.
 			services.AddMvc()
 				.AddNewtonsoftJson();
-			services.AddSwaggerGen();
-
-			services.AddSwaggerGen(options => {
-				options.SwaggerDoc("v1", new OpenApiInfo {
-					Version = "v1",
-					Title = "SuperDump API",
-					Description = "REST interface for SuperDump analysis tool",
-					Contact = new OpenApiContact { Url = new Uri("https://github.com/Dynatrace/superdump") }
-				});
-
-				//Determine base path for the application.
-				var basePath = PlatformServices.Default.Application.ApplicationBasePath;
-
-				//Set the comments path for the swagger json and ui.
-				var xmlDocFile = new FileInfo(Path.Combine(basePath, "SuperDumpService.xml"));
-				if (xmlDocFile.Exists) {
-					options.IncludeXmlComments(xmlDocFile.FullName);
-				}
-
-
-				options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme() {
-					In = ParameterLocation.Header,
-					Description = "Please insert JWT Bearer Token into field",
-					Name = "Authorization",
-					Type = SecuritySchemeType.ApiKey
-				});
-			});
 
 			// Add HttpErrorPolicy for ObjectDisposedException when downloading a dump file using the DownloadService
 			services.AddHttpClient(DownloadService.HttpClientName, config => config.Timeout = superDumpSettings.DownloadServiceHttpClientTimeout)
@@ -270,10 +241,6 @@ namespace SuperDumpService {
 
 			GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 0 });
 
-			app.UseSwagger();
-			app.UseSwaggerUI(c => {
-				c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-			});
 			app.UseHealthChecks("/healthcheck");
 
 			LogProvider.SetCurrentLogProvider(new ColouredConsoleLogProvider());

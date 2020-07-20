@@ -2,33 +2,6 @@
 @using SuperDumpService.Helpers;
 @inject IAuthorizationHelper AuthorizationHelper
 
-<script>
-	var modalWin = new CreateModalPopUpObject();
-	//Uncomment below line to make look buttons as link
-	//modalWin.SetButtonStyle("background:none;border:none;textDecoration:underline;cursor:pointer");
-
-	function ShowMessage(msg, lines) {
-		modalWin.ShowMessage(msg, 220 + lines * 23, 550, 'User Information');
-	}
-
-
-	function EnrollNow(msg) {
-		modalWin.HideModalPopUp();
-		modalWin.ShowMessage(msg, 600, 300, 'User Information', null, null);
-	}
-
-	function EnrollLater() {
-		modalWin.HideModalPopUp();
-		modalWin.ShowMessage(msg, 600, 300, 'User Information', null, null);
-	}
-
-	function HideModalWindow() {
-		modalWin.HideModalPopUp();
-	}
-</script>
-
-
-
 <div class="panel panel-primary">
 	<div class="panel-heading">
 		<h4 class="panel-title">

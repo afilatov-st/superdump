@@ -94,7 +94,9 @@ namespace SuperDump.Webterm {
 				var initialCommands = new List<string>();
 				if (dumpInfo.DumpFileName.EndsWith(".dmp", StringComparison.OrdinalIgnoreCase)) {
 					mgr = StartCdb(socketId, workingDirectory, dumpFilePathInfo, is64bit, id);
-					initialCommands.Add(".cordll -ve -u -l"); // load DAC and SOS
+					if (settings.Value.WebTerminalInitialCommands != null) {
+						initialCommands.AddRange(settings.Value.WebTerminalInitialCommands);
+					}
 				} else {
 					throw new NotSupportedException($"file extension of '{dumpInfo.DumpFileName}' not supported for interactive mode.");
 				}

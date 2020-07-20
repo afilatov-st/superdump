@@ -15,7 +15,8 @@ html, body {
 }
 
 div.console {
-    font-family: Consolas, 'Lucida Console', 'Courier New', monospace;
+    font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', monospace;
+	font-size: 13px;
     height: 100%;
     margin: auto;
     white-space: pre-wrap;
